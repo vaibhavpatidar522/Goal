@@ -7,6 +7,9 @@ const User = require('../models/userModel'); // schema
 // @route GET /api/goals
 //@access Private
 const getGoals = asyncHandler ( async(req, res) => {
+    
+
+
     const goals = await Goal.find({user : req.user.id})
     res.status(200).json(goals);
 })
@@ -39,16 +42,15 @@ const updateGoal =asyncHandler ( async (req, res) => {
         throw new Error('Goal not found')
     }
 
-    const user = await User.findById(req.user.id)
 
-    if(!user){
+    if(!req.user){
         res.status(401)
         throw new Error('User not found ')
 
     }
 
     // make sure the logged in user matches the goal user
-    if(goal.user.toString() !== user.id){
+    if(goal.user.toString() !== req.user.id){
         res.status(401)
         throw new Error('User Not found')
     }
@@ -72,16 +74,15 @@ const deleteGoal = asyncHandler ( async(req, res) => {
     }
 
     
-    const user = await User.findById(req.user.id)
 
-    if(!user){
+    if(!req.user){
         res.status(401)
         throw new Error('User not found ')
 
     }
 
     // make sure the logged in user matches the goal user
-    if(goal.user.toString() !== user.id){
+    if(goal.user.toString() !== req.user.id){
         res.status(401)
         throw new Error('User Not found')
     }

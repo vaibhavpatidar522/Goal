@@ -46,7 +46,7 @@ const registerUser = asyncHandler( async(req , res ) =>{
         res.status(400)
         throw new Error('Invalide user')
     }
-})
+})  
 
 
 // @desc  Authenticate a user
@@ -83,11 +83,7 @@ const loginUser = asyncHandler( async(req , res ) =>{
 // @route Get /api/user/me
 //@access Private
 const getMe = asyncHandler( async(req , res ) =>{
-    const {_id , name , email } = await User.findById(req.user.id)
-    res.status(200).json({
-        id: _id ,
-        name , email
-    }) 
+    res.status(200).json(req.user) 
 })
 
 // Generate JWT token
